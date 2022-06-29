@@ -9,8 +9,8 @@ class TableViewCell: UITableViewCell {
 
 class ViewController: UIViewController, ApplicationContractView {
 
-    @IBOutlet weak var dropDown1: UIPickerView!
-    @IBOutlet weak var dropDown2: UIPickerView!
+    @IBOutlet weak var departureDropDown: UIPickerView!
+    @IBOutlet weak var arrivalDropDown: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
     
     private let tableViewCell: String = "TableViewCell"
@@ -32,8 +32,8 @@ class ViewController: UIViewController, ApplicationContractView {
     
     
     @IBAction func onButtonTapped() {
-        let originStation = stations[dropDown1.selectedRow(inComponent:0)]
-        let finalStation = stations[dropDown2.selectedRow(inComponent:0)]
+        let originStation = stations[departureDropDown.selectedRow(inComponent:0)]
+        let finalStation = stations[arrivalDropDown.selectedRow(inComponent:0)]
         presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation)
     }
 }
@@ -47,11 +47,11 @@ extension ViewController {
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func setUpPickers() {
-        self.dropDown1.delegate = self
-        self.dropDown1.dataSource = self
+        self.departureDropDown.delegate = self
+        self.departureDropDown.dataSource = self
         
-        self.dropDown2.delegate = self
-        self.dropDown2.dataSource = self
+        self.arrivalDropDown.delegate = self
+        self.arrivalDropDown.dataSource = self
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
