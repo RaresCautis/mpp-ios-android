@@ -6,8 +6,9 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
-import kotlinx.serialization.serializer
 import kotlin.coroutines.CoroutineContext
+import kotlinx.serialization.json.Json
+import kotlin.math.min
 
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
@@ -15,6 +16,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
     private val stations = listOf("KGX","EDB", "YRK", "DHM", "NCL")
+    private val baseURL = "https://mobile-api-softwire2.lner.co.uk/"
+    private val client = HttpClient{
+        install(JsonFeature){
+            serializer = KotlinxSerializer(Json.nonstrict)
+        }
+    }
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
@@ -23,19 +30,15 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         this.view = view
         view.setStationNames(stations)
     }
-    private val client = HttpClient{
-        install(JsonFeature){
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json.nonstrict)
-        }
-    }
-    private val baseURL = "https://mobile-api-softwire2.lner.co.uk/"
 
-    override fun makeTrainSearch(origin: Int, destination: Int) {
+
+
+    override fun makeTrainSearch(originCrs: String, destinationCrs: String) {
         launch{
             try{
                 val url = URLBuilder("${baseURL}v1/fares?").apply{
-                    parameters["originStation"] = stations[origin]
-                    parameters["destinationStation"] = stations[destination]
+                    parameters["originStation"] = originCrs
+                    parameters["destinationStation"] = destinationCrs
                     parameters["outboundDateTime"] = "2022-07-24T14:30:00.000+01:00"
                     parameters["numberOfChildren"] = "0"
                     parameters["numberOfAdults"] = "2"
@@ -44,11 +47,23 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     url(url)
                 }
 
-                print("GOT HERE")
+                val data: MutableList<DepartureInformation> = mutableListOf<DepartureInformation>()
 
-                view?.setArrivalTimeLabel(departureDetails.outboundJourneys.first().arrivalTime)
+
+                for(i in 0 until min(a=5, b=departureDetails.outboundJourneys.size)){
+                    val journey = departureDetails.outboundJourneys[i]
+
+                    val departure = DepartureInformation(
+                        departureTime = journey.departureTime,
+                        arrivalTime = journey.arrivalTime
+                    )
+
+                    data.add(departure)
+                }
+
+                view?.setTableData(data)
             } catch (e: Exception) {
-                print("ERROR")
+                view?.createAlert("ERROR: Couldn't receive train data.")
             }
         }
 

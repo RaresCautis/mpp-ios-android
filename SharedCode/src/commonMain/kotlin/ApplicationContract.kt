@@ -5,11 +5,12 @@ import kotlinx.coroutines.CoroutineScope
 interface ApplicationContract {
     interface View {
         fun setStationNames(stationNames: List<String>)
-        fun setArrivalTimeLabel(text: String)
+        fun createAlert(alertMessage:String)
+        fun setTableData(data: MutableList<DepartureInformation>)
     }
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun makeTrainSearch(origin: Int, destination: Int)
+        abstract fun makeTrainSearch(originCrs:String, destinationCrs: String)
     }
 }
