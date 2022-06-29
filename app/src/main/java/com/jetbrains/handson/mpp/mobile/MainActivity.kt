@@ -7,8 +7,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.recyclerview_row.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -44,13 +46,17 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     override fun setTableData(data: List<DepartureInformation>) {
         val tableData = data.map {
-            RecyclerViewCell(it.departureTime, it.arrivalTime)
+            RecyclerViewCell(it.departureDateTime.time,
+                it.departureDateTime.date,
+                it.arrivalDateTime.time,
+                it.arrivalDateTime.date)
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
 
         recyclerView.layoutManager = layoutManager
+        recyclerView.addItemDecoration(DividerItemDecoration(baseContext,layoutManager.orientation))
         recyclerView.adapter = DepartureBoardRecyclerViewAdapter(tableData)
     }
 

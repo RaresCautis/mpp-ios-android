@@ -45,7 +45,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         }
     }
 
-
+    private fun formatDateTime(dateTime: String) : DateTime {
+        val date = dateTime.subSequence(0,10).toString()
+        val time = dateTime.subSequence(11,16).toString()
+        return DateTime(date, time)
+    }
 
     override fun makeTrainSearch(originCrs: String, destinationCrs: String) {
         launch{
@@ -54,8 +58,8 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
                 val data = departureDetails.outboundJourneys.map {
                     DepartureInformation(
-                        departureTime = it.departureTime,
-                        arrivalTime = it.arrivalTime
+                        departureDateTime = formatDateTime(it.departureTime),
+                        arrivalDateTime = formatDateTime(it.arrivalTime)
                     )
                 }
 

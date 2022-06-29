@@ -22,4 +22,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="RecyclerCell">
+        <item name="android:layout_marginTop">10sp</item>
+    </style>
+
+    <style name="RecyclerCell.Text" parent="Text">
+    </style>
+
 </resources>

@@ -21,7 +21,9 @@ class DepartureBoardRecyclerViewAdapter(private val tableDataCells: List<Recycle
         val itemsViewModel = tableDataCells[position]
 
         holder.departureTime.text = itemsViewModel.departureTime
+        holder.departureDate.text = itemsViewModel.departureDate
         holder.arrivalTime.text = itemsViewModel.arrivalTime
+        holder.arrivalDate.text = itemsViewModel.arrivalDate
     }
 
     override fun getItemCount(): Int {
@@ -30,9 +32,11 @@ class DepartureBoardRecyclerViewAdapter(private val tableDataCells: List<Recycle
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val departureTime: TextView = itemView.findViewById(R.id.departureTime)
+        val departureDate: TextView = itemView.findViewById(R.id.departureDate)
         val arrivalTime: TextView = itemView.findViewById(R.id.arrivalTime)
+        val arrivalDate: TextView = itemView.findViewById(R.id.arrivalDate)
     }
 }
 
-data class RecyclerViewCell(val departureTime: String, val arrivalTime: String) {
+data class RecyclerViewCell(val departureTime: String, val departureDate: String, val arrivalTime: String, val arrivalDate: String) {
 }
