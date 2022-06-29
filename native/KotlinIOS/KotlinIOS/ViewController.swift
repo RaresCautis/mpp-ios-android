@@ -7,13 +7,15 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var arrivalLabel: UILabel!
 }
 
-class ViewController: UIViewController, ApplicationContractView{
+class ViewController: UIViewController, ApplicationContractView {
 
     @IBOutlet weak var dropDown1: UIPickerView!
     @IBOutlet weak var dropDown2: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
     
-    private var tableData: NSMutableArray = NSMutableArray()
+    private let tableViewCell: String = "TableViewCell"
+    
+    private var tableData: [DepartureInformation] = [DepartureInformation]()
     
     private var stations: [String] = [String]()
     
@@ -29,11 +31,10 @@ class ViewController: UIViewController, ApplicationContractView{
     }
     
     
-    @IBAction func onButtonTapped(){
+    @IBAction func onButtonTapped() {
         let originStation = stations[dropDown1.selectedRow(inComponent:0)]
         let finalStation = stations[dropDown2.selectedRow(inComponent:0)]
-        presenter.makeTrainSearch(originCrs: originStation,destinationCrs:  finalStation)
-        
+        presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation)
     }
 }
 
@@ -43,7 +44,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource{
+extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func setUpPickers() {
         self.dropDown1.delegate = self
@@ -57,11 +58,11 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource{
         return 1
     }
     
-    func pickerView(_ pickerView:UIPickerView, numberOfRowsInComponent component:Int)-> Int{
+    func pickerView(_ pickerView:UIPickerView, numberOfRowsInComponent component:Int) -> Int {
         return stations.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)->String?{
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return stations[row]
     }
 }
@@ -69,24 +70,23 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource{
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func setUpTable(){
+    func setUpTable() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        //tableData = ["STRING", "STRING"]
         registerTableViewCells()
     }
     
     func registerTableViewCells() {
-        let trainCell = UINib(nibName: "TableViewCell", bundle: nil)
-        self.tableView.register(trainCell, forCellReuseIdentifier: "TableViewCell")
+        let trainCell = UINib(nibName: tableViewCell, bundle: nil)
+        self.tableView.register(trainCell, forCellReuseIdentifier: tableViewCell)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell{
-            cell.departureLabel.text = (tableData[indexPath.row] as! DepartureInformation).departureTime
-            cell.arrivalLabel.text = (tableData[indexPath.row] as! DepartureInformation).arrivalTime
+        if let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCell, for: indexPath) as? TableViewCell{
+            cell.departureLabel.text = tableData[indexPath.row].departureTime
+            cell.arrivalLabel.text = tableData[indexPath.row].arrivalTime
             return cell
         }
         
@@ -97,7 +97,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         return tableData.count
     }
     
-    func setTableData(data: NSMutableArray) {
+    func setTableData(data: [DepartureInformation]) {
         tableData = data
         self.tableView.reloadData()
     }

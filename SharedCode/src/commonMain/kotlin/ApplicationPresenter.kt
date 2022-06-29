@@ -31,34 +31,32 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setStationNames(stations)
     }
 
+    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String): DepartureDetails {
+        val url = URLBuilder("${baseURL}v1/fares?").apply{
+            parameters["originStation"] = originCrs
+            parameters["destinationStation"] = destinationCrs
+            parameters["outboundDateTime"] = "2022-07-24T14:30:00.000+01:00"
+            parameters["numberOfChildren"] = "0"
+            parameters["numberOfAdults"] = "2"
+        }.build()
+
+        return client.get{
+            url(url)
+        }
+    }
+
 
 
     override fun makeTrainSearch(originCrs: String, destinationCrs: String) {
         launch{
             try{
-                val url = URLBuilder("${baseURL}v1/fares?").apply{
-                    parameters["originStation"] = originCrs
-                    parameters["destinationStation"] = destinationCrs
-                    parameters["outboundDateTime"] = "2022-07-24T14:30:00.000+01:00"
-                    parameters["numberOfChildren"] = "0"
-                    parameters["numberOfAdults"] = "2"
-                }.build()
-                val departureDetails = client.get<DepartureDetails> {
-                    url(url)
-                }
+                val departureDetails = getAPITimeData(originCrs, destinationCrs)
 
-                val data: MutableList<DepartureInformation> = mutableListOf<DepartureInformation>()
-
-
-                for(i in 0 until min(a=5, b=departureDetails.outboundJourneys.size)){
-                    val journey = departureDetails.outboundJourneys[i]
-
-                    val departure = DepartureInformation(
-                        departureTime = journey.departureTime,
-                        arrivalTime = journey.arrivalTime
+                val data = departureDetails.outboundJourneys.map {
+                    DepartureInformation(
+                        departureTime = it.departureTime,
+                        arrivalTime = it.arrivalTime
                     )
-
-                    data.add(departure)
                 }
 
                 view?.setTableData(data)
