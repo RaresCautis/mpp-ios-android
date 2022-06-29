@@ -14,7 +14,16 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter.onViewTaken(this)
     }
 
-    override fun setLabel(text: String) {
-        findViewById<TextView>(R.id.main_text).text = text
+    override fun setStationNames(stationNames: List<String>) {
+        //To DO
     }
+
+    override fun createAlert(alertMessage: String) {
+        //TO DO
+    }
+
+    override fun setTableData(data: MutableList<DepartureInformation>) {
+        //TO DO
+    }
+
 }
