@@ -31,11 +31,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setStationNames(stations)
     }
 
-    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String): DepartureDetails {
+    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String, dateTime: String): DepartureDetails {
         val url = URLBuilder("${baseURL}v1/fares?").apply{
             parameters["originStation"] = originCrs
             parameters["destinationStation"] = destinationCrs
-            parameters["outboundDateTime"] = "2022-07-24T14:30:00.000+01:00"
+            parameters["outboundDateTime"] = dateTime
             parameters["numberOfChildren"] = "0"
             parameters["numberOfAdults"] = "2"
         }.build()
@@ -45,21 +45,21 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         }
     }
 
-    private fun formatDateTime(dateTime: String) : DateTime {
+    private fun formatDateTimeOutput(dateTime: String) : DateTime {
         val date = dateTime.subSequence(0,10).toString()
         val time = dateTime.subSequence(11,16).toString()
         return DateTime(date, time)
     }
 
-    override fun makeTrainSearch(originCrs: String, destinationCrs: String) {
+    override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String) {
         launch{
             try{
-                val departureDetails = getAPITimeData(originCrs, destinationCrs)
+                val departureDetails = getAPITimeData(originCrs, destinationCrs, dateTime)
 
                 val data = departureDetails.outboundJourneys.map {
                     DepartureInformation(
-                        departureDateTime = formatDateTime(it.departureTime),
-                        arrivalDateTime = formatDateTime(it.arrivalTime)
+                        departureDateTime = formatDateTimeOutput(it.departureTime),
+                        arrivalDateTime = formatDateTimeOutput(it.arrivalTime)
                     )
                 }
 

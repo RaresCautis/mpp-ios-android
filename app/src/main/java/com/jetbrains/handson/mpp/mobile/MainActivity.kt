@@ -3,10 +3,9 @@ package com.jetbrains.handson.mpp.mobile
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         setUpSpinners()
         setUpSubmitButton()
+        setUpTimePicker()
     }
 
     override fun setStationNames(stationNames: List<String>) {
@@ -76,6 +76,37 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     private fun submitButtonTapped() {
         val originStation = findViewById<Spinner>(R.id.departureSpinner).selectedItem.toString()
         val finalStation = findViewById<Spinner>(R.id.arrivalSpinner).selectedItem.toString()
-        presenter.makeTrainSearch(originStation, finalStation)
+        val dateTime = getSelectedDate()
+        println(dateTime)
+        presenter.makeTrainSearch(originStation, finalStation, dateTime)
+
+
     }
+    private fun getSelectedDate() : String {
+        val selectedDate = findViewById<DatePicker>(R.id.datePicker)
+        val day = addZeroToDateTime(selectedDate.dayOfMonth)
+        val month = addZeroToDateTime(selectedDate.month + 1)
+        val year = "${selectedDate.year}"
+
+        val selectedTime = findViewById<TimePicker>(R.id.timePicker)
+        val hour = addZeroToDateTime(selectedTime.hour)
+        val minute = addZeroToDateTime(selectedTime.minute)
+
+        return year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00.000+01:00"
+    }
+
+    private fun setUpTimePicker() {
+        findViewById<TimePicker>(R.id.timePicker).setIs24HourView(true)
+    }
+
+    private fun addZeroToDateTime(value: Int) : String {
+        return if (value < 10) {
+            "0$value"
+        } else {"$value"}
+    }
+
+
+
+
+
 }

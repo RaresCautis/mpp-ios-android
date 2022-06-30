@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="428" height="963"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="n5v-gE-hUv">
-                                        <rect key="frame" x="0.0" y="0.0" width="428" height="1031"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="1169.3333333333333"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" text="Train" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZeY-oD-kqt">
                                                 <rect key="frame" x="0.0" y="0.0" width="428" height="42"/>
@@ -50,16 +50,30 @@
                                                     <constraint firstAttribute="height" constant="200" id="foN-2P-Co0"/>
                                                 </constraints>
                                             </pickerView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Departure Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iCc-Qq-GzJ">
+                                                <rect key="frame" x="0.0" y="665.66666666666663" width="428" height="26.333333333333371"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="npc-fV-0es">
+                                                <rect key="frame" x="0.0" y="723" width="428" height="50"/>
+                                                <subviews>
+                                                    <datePicker contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="10" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="4H4-6f-hOf">
+                                                        <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
+                                                    </datePicker>
+                                                </subviews>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih9-II-hS4">
-                                                <rect key="frame" x="0.0" y="665.66666666666663" width="428" height="34.333333333333371"/>
+                                                <rect key="frame" x="0.0" y="804" width="428" height="34.333333333333371"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="gray" title="Submit"/>
                                                 <connections>
-                                                    <action selector="onButtonTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="H3j-ki-Gj8"/>
+                                                    <action selector="submitButtonTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="H3j-ki-Gj8"/>
                                                 </connections>
                                             </button>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ara-Eg-9As">
-                                                <rect key="frame" x="0.0" y="731" width="428" height="300"/>
+                                                <rect key="frame" x="0.0" y="869.33333333333337" width="428" height="300.00000000000011"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="LaV-Vm-4EI"/>
@@ -92,6 +106,7 @@
                     <size key="freeformSize" width="428" height="1041"/>
                     <connections>
                         <outlet property="arrivalPicker" destination="Jo2-NJ-gIc" id="QLz-fc-9s9"/>
+                        <outlet property="datePicker" destination="4H4-6f-hOf" id="SR7-YY-4aA"/>
                         <outlet property="departurePicker" destination="XXF-Pk-PGc" id="cNX-wi-lDq"/>
                         <outlet property="tableView" destination="ara-Eg-9As" id="Ujp-iA-FMA"/>
                     </connections>

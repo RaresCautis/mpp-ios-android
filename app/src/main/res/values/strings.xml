@@ -7,4 +7,6 @@
     <string name="departureTimeLabel">Departure:</string>
     <string name="arrivalTimeLabel">Arrival:</string>
     <string name="timePlaceholder">22:05</string>
+    <string name="datePlaceholder">2022-07-24</string>
+    <string name="selectTimeLabel">Departure Time</string>
 </resources>

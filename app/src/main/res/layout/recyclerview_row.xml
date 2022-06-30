@@ -7,7 +7,7 @@
     android:divider="@drawable/empty_divider_vertical">
     <TextView
         android:id="@+id/departureTimeLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/departureTimeLabel"
         style="@style/Text.Subtitle"/>
@@ -19,21 +19,21 @@
         android:divider="@drawable/empty_divider_horizontal">
         <TextView
             android:id="@+id/departureTime"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:text="@string/timePlaceholder"
             style="@style/Text" />
         <TextView
             android:id="@+id/departureDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            tools:text="@string/timePlaceholder"
+            tools:text="@string/datePlaceholder"
             style="@style/Text" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/arrivalTimeLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/arrivalTimeLabel"
         style="@style/Text.Subtitle"/>
@@ -53,7 +53,7 @@
             android:id="@+id/arrivalDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="@string/timePlaceholder"
+            tools:text="@string/datePlaceholder"
             style="@style/Text"/>
     </LinearLayout>
 </LinearLayout>
