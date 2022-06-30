@@ -91,8 +91,8 @@
                     </view>
                     <size key="freeformSize" width="428" height="1041"/>
                     <connections>
-                        <outlet property="arrivalDropDown" destination="Jo2-NJ-gIc" id="QLz-fc-9s9"/>
-                        <outlet property="departureDropDown" destination="XXF-Pk-PGc" id="cNX-wi-lDq"/>
+                        <outlet property="arrivalPicker" destination="Jo2-NJ-gIc" id="QLz-fc-9s9"/>
+                        <outlet property="departurePicker" destination="XXF-Pk-PGc" id="cNX-wi-lDq"/>
                         <outlet property="tableView" destination="ara-Eg-9As" id="Ujp-iA-FMA"/>
                     </connections>
                 </viewController>

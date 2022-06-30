@@ -61,7 +61,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
                 view?.setTableData(data)
             } catch (e: Exception) {
-                view?.createAlert("ERROR: Couldn't receive train data.")
+                view?.createAlert("ERROR: Couldn't receive train data.", "Error")
             }
         }
 

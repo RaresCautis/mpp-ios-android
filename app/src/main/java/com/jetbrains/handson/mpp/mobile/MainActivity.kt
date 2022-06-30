@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private var stations: List<String> = listOf()
     private lateinit var presenter: ApplicationContract.Presenter
-    private var tableData: List<DepartureInformation> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +22,17 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter.onViewTaken(this)
 
         setUpSpinners()
+        setUpSubmitButton()
     }
 
     override fun setStationNames(stationNames: List<String>) {
         stations = stationNames
     }
 
-    override fun createAlert(alertMessage: String) {
+    override fun createAlert(alertMessage: String, alertTitle: String) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("ERROR: Couldn't receive train data.")
+        builder.setTitle(alertTitle)
+        builder.setMessage(alertMessage)
         val alertDialog: AlertDialog = builder.create()
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay") {
@@ -42,33 +43,33 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun setTableData(data: List<DepartureInformation>) {
-        tableData = data
-        refreshTableData()
+        val tableData = data.map {
+            RecyclerViewCell(it.departureTime, it.arrivalTime)
+        }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val layoutManager = LinearLayoutManager(this)
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = DepartureBoardRecyclerViewAdapter(tableData)
     }
 
     private fun setUpSpinners() {
         val adapter: ArrayAdapter<String> = ArrayAdapter(
-            this,android.R.layout.simple_spinner_item, stations
+            this, android.R.layout.simple_spinner_item, stations
         )
         findViewById<Spinner>(R.id.departureSpinner).adapter = adapter
         findViewById<Spinner>(R.id.arrivalSpinner).adapter = adapter
     }
 
-    fun onButtonTapped(view: View) {
+    private fun setUpSubmitButton() {
+        val submitButton = findViewById<Button>(R.id.submitButton)
+        submitButton.setOnClickListener { submitButtonTapped() }
+    }
+
+    private fun submitButtonTapped() {
         val originStation = findViewById<Spinner>(R.id.departureSpinner).selectedItem.toString()
         val finalStation = findViewById<Spinner>(R.id.arrivalSpinner).selectedItem.toString()
-        presenter.makeTrainSearch(originCrs = originStation, destinationCrs = finalStation)
+        presenter.makeTrainSearch(originStation, finalStation)
     }
-
-    private fun refreshTableData() {
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val data = tableData.map {
-            RecyclerViewCell(departureTime = it.departureTime, arrivalTime = it.arrivalTime)
-        }
-        val adapter = RecyclerViewAdapter(data)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-    }
-
 }

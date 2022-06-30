@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">KotlinMPP</string>
-    <string name="Title">Train</string>
+    <string name="title">Train</string>
     <string name="departureLabel">Origin</string>
     <string name="arrivalLabel">Destination</string>
     <string name="submitButton">Submit</string>
     <string name="departureTimeLabel">Departure:</string>
     <string name="arrivalTimeLabel">Arrival:</string>
-    <string name="placeholder">PLACEHOLDER</string>
+    <string name="timePlaceholder">22:05</string>
 </resources>

@@ -9,8 +9,8 @@ class TableViewCell: UITableViewCell {
 
 class ViewController: UIViewController, ApplicationContractView {
 
-    @IBOutlet weak var departureDropDown: UIPickerView!
-    @IBOutlet weak var arrivalDropDown: UIPickerView!
+    @IBOutlet weak var departurePicker: UIPickerView!
+    @IBOutlet weak var arrivalPicker: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
     
     private let tableViewCell: String = "TableViewCell"
@@ -32,8 +32,8 @@ class ViewController: UIViewController, ApplicationContractView {
     
     
     @IBAction func onButtonTapped() {
-        let originStation = stations[departureDropDown.selectedRow(inComponent:0)]
-        let finalStation = stations[arrivalDropDown.selectedRow(inComponent:0)]
+        let originStation = stations[departurePicker.selectedRow(inComponent:0)]
+        let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
         presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation)
     }
 }
@@ -47,11 +47,11 @@ extension ViewController {
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func setUpPickers() {
-        self.departureDropDown.delegate = self
-        self.departureDropDown.dataSource = self
+        self.departurePicker.delegate = self
+        self.departurePicker.dataSource = self
         
-        self.arrivalDropDown.delegate = self
-        self.arrivalDropDown.dataSource = self
+        self.arrivalPicker.delegate = self
+        self.arrivalPicker.dataSource = self
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -105,8 +105,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ViewController{
     
-    func createAlert(alertMessage: String){
-        let alert = UIAlertController(title: "Error", message: alertMessage, preferredStyle: .alert)
+    func createAlert(alertMessage: String, alertTitle: String){
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
