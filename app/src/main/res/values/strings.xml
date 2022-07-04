@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinMPP</string>
+    <string name="app_name">Train</string>
     <string name="title">Train</string>
     <string name="departureLabel">Origin</string>
     <string name="arrivalLabel">Destination</string>
