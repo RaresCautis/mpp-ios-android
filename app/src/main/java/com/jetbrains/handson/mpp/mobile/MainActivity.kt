@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         setUpSpinners()
         setUpSubmitButton()
         setUpTimePicker()
+        supportActionBar?.setTitle("Train\uD83D\uDE82")
     }
 
     override fun setStationNames(stationNames: List<String>) {
@@ -49,14 +50,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
             RecyclerViewCell(it.departureDateTime.time,
                 it.departureDateTime.date,
                 it.arrivalDateTime.time,
-                it.arrivalDateTime.date)
+                it.arrivalDateTime.date,
+                it.price,
+                it.journeyTime)
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(DividerItemDecoration(baseContext,layoutManager.orientation))
         recyclerView.adapter = DepartureBoardRecyclerViewAdapter(tableData)
     }
 
@@ -77,7 +79,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val originStation = findViewById<Spinner>(R.id.departureSpinner).selectedItem.toString()
         val finalStation = findViewById<Spinner>(R.id.arrivalSpinner).selectedItem.toString()
         val dateTime = getSelectedDate()
-        println(dateTime)
         presenter.makeTrainSearch(originStation, finalStation, dateTime)
 
 
@@ -96,7 +97,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     private fun setUpTimePicker() {
-        findViewById<TimePicker>(R.id.timePicker).setIs24HourView(true)
+        val timePicker = findViewById<TimePicker>(R.id.timePicker)
+        timePicker.setIs24HourView(true)
+        timePicker.currentHour = timePicker.currentHour + 1
     }
 
     private fun addZeroToDateTime(value: Int) : String {

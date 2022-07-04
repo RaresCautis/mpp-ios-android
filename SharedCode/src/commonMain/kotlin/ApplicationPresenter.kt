@@ -8,7 +8,6 @@ import io.ktor.http.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import kotlinx.serialization.json.Json
-import kotlin.math.min
 
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
@@ -37,7 +36,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             parameters["destinationStation"] = destinationCrs
             parameters["outboundDateTime"] = dateTime
             parameters["numberOfChildren"] = "0"
-            parameters["numberOfAdults"] = "2"
+            parameters["numberOfAdults"] = "1"
         }.build()
 
         return client.get{
@@ -59,15 +58,16 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 val data = departureDetails.outboundJourneys.map {
                     DepartureInformation(
                         departureDateTime = formatDateTimeOutput(it.departureTime),
-                        arrivalDateTime = formatDateTimeOutput(it.arrivalTime)
+                        arrivalDateTime = formatDateTimeOutput(it.arrivalTime),
+                        journeyTime = JourneyDurationCalculator.getJourneyTime(it.departureTime, it.arrivalTime),
+                        price = "£${it.tickets.first().priceInPennies.toDouble() / 100}"
                     )
                 }
 
                 view?.setTableData(data)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 view?.createAlert("ERROR: Couldn't receive train data.", "Error")
             }
         }
-
     }
 }

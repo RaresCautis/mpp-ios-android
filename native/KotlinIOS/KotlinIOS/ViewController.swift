@@ -6,6 +6,18 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var departureDate: UILabel!
     @IBOutlet weak var arrivalTime: UILabel!
     @IBOutlet weak var arrivalDate: UILabel!
+    @IBOutlet weak var trainEmojiLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var journeyTimeLabel: UILabel!
+    
+    override func awakeFromNib() {
+        flipTrainEmoji()
+    }
+    
+    func flipTrainEmoji(){
+        trainEmojiLabel.transform = CGAffineTransform(scaleX: -1.5, y: 1.5);
+    }
+    
 }
 
 class ViewController: UIViewController, ApplicationContractView {
@@ -30,6 +42,7 @@ class ViewController: UIViewController, ApplicationContractView {
         
         setUpPickers()
         setUpTable()
+        setUpTimePicker()
     }
     
     
@@ -37,7 +50,6 @@ class ViewController: UIViewController, ApplicationContractView {
         let originStation = stations[departurePicker.selectedRow(inComponent:0)]
         let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
         let dateTime = convertDateToCorrectFormat(date: datePicker.date)
-        print(datePicker.date.description)
         presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime)
     }
 }
@@ -106,6 +118,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell.departureDate.text = tableData[indexPath.row].departureDateTime.date
             cell.arrivalTime.text = tableData[indexPath.row].arrivalDateTime.time
             cell.arrivalDate.text = tableData[indexPath.row].arrivalDateTime.date
+            cell.priceLabel.text = tableData[indexPath.row].price
+            cell.journeyTimeLabel.text = tableData[indexPath.row].journeyTime
             return cell
         }
         
@@ -128,5 +142,26 @@ extension ViewController{
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension ViewController{
+    
+    func setUpTimePicker() {
+        let dateString = datePicker.date.description
+        
+        let start = dateString.index(dateString.startIndex, offsetBy: 11)
+        let end = dateString.index(dateString.startIndex, offsetBy: 18)
+        let time = String(dateString[start...end])
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = dateFormatter.date(from: dateString.prefix(11) + addHoursToTimeString(amount: 2, time: time))
+        datePicker.date = date!
+    }
+    
+    func addHoursToTimeString(amount: Int, time: String) -> String {
+        let hour = (Int(time.prefix(2))! + amount) % 24
+        return String(hour) + time.suffix(time.count - 2)
     }
 }

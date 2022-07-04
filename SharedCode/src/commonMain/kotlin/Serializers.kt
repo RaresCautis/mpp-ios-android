@@ -27,7 +27,9 @@ data class TicketDetails (
 
 data class DepartureInformation (
     val departureDateTime: DateTime,
-    val arrivalDateTime: DateTime
+    val arrivalDateTime: DateTime,
+    val journeyTime: String,
+    val price: String
     )
 
 data class DateTime (
