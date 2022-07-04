@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CGX-ZS-bhF">
-                                <rect key="frame" x="0.0" y="44" width="428.33333333333331" height="1027.3333333333333"/>
+                                <rect key="frame" x="-0.33333333333334281" y="44" width="428.33333333333337" height="1027.3333333333333"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   Train🚂" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BK-MR-9fq">
                                         <rect key="frame" x="0.0" y="0.0" width="102" height="30"/>
@@ -162,7 +162,7 @@
                             <constraint firstItem="CGX-ZS-bhF" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="64.333333333333258" id="9AZ-Vn-iGq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CGX-ZS-bhF" secondAttribute="trailing" id="Zti-MU-VMN"/>
                             <constraint firstItem="CGX-ZS-bhF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nwY-uA-2pv"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="leading" secondItem="CGX-ZS-bhF" secondAttribute="leading" id="wSW-AK-qGf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="leading" secondItem="CGX-ZS-bhF" secondAttribute="leading" constant="0.33333333333334281" id="san-XG-AcF"/>
                         </constraints>
                     </view>
                     <size key="freeformSize" width="428" height="1041"/>
