@@ -35,4 +35,4 @@ data class DepartureInformation (
 data class DateTime (
     val date: String,
     val time: String
-        )
+    )

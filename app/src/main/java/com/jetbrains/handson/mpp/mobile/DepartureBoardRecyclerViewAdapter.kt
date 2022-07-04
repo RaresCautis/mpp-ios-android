@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.recyclerview_row.view.*
 
 class DepartureBoardRecyclerViewAdapter(private val tableDataCells: List<RecyclerViewCell>) : RecyclerView.Adapter<DepartureBoardRecyclerViewAdapter.ViewHolder>() {
 
@@ -33,12 +34,12 @@ class DepartureBoardRecyclerViewAdapter(private val tableDataCells: List<Recycle
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val departureTime: TextView = itemView.findViewById(R.id.departureTime)
-        val departureDate: TextView = itemView.findViewById(R.id.departureDate)
-        val arrivalTime: TextView = itemView.findViewById(R.id.arrivalTime)
-        val arrivalDate: TextView = itemView.findViewById(R.id.arrivalDate)
-        val price: TextView = itemView.findViewById(R.id.price)
-        val journeyTime: TextView = itemView.findViewById(R.id.journeyTime)
+        val departureTime: TextView = itemView.departureTime
+        val departureDate: TextView = itemView.departureDate
+        val arrivalTime: TextView = itemView.arrivalTime
+        val arrivalDate: TextView = itemView.arrivalDate
+        val price: TextView = itemView.price
+        val journeyTime: TextView = itemView.journeyTime
     }
 }
 

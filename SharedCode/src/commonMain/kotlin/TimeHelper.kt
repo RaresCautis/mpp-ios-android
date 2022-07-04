@@ -4,7 +4,7 @@ import com.soywiz.klock.DateFormat
 import com.soywiz.klock.parse
 import kotlin.math.floor
 
-class JourneyDurationCalculator {
+class TimeHelper {
     companion object {
         fun getJourneyTime(departureTime: String, arrivalTime: String) : String {
             val dateFormat: DateFormat = DateFormat("yyyy-MM-ddTHH:mm")
@@ -23,5 +23,19 @@ class JourneyDurationCalculator {
                 "0$value"
             } else {"$value"}
         }
+
+        fun formatDateTimeOutput(dateTime: String) : DateTime {
+            val journeyDateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            val utcDateTime = journeyDateFormat.parse(dateTime).utc
+
+            val date = utcDateTime.format("yyyy-MM-dd")
+            val time = utcDateTime.format("HH:mm")
+
+
+            return DateTime(date, time)
+
+        }
+
+
     }
 }

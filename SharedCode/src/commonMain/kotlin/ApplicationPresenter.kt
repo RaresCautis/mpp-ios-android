@@ -44,12 +44,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         }
     }
 
-    private fun formatDateTimeOutput(dateTime: String) : DateTime {
-        val date = dateTime.subSequence(0,10).toString()
-        val time = dateTime.subSequence(11,16).toString()
-        return DateTime(date, time)
-    }
-
     override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String) {
         launch{
             try{
@@ -57,16 +51,16 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
                 val data = departureDetails.outboundJourneys.map {
                     DepartureInformation(
-                        departureDateTime = formatDateTimeOutput(it.departureTime),
-                        arrivalDateTime = formatDateTimeOutput(it.arrivalTime),
-                        journeyTime = JourneyDurationCalculator.getJourneyTime(it.departureTime, it.arrivalTime),
+                        departureDateTime = TimeHelper.formatDateTimeOutput(it.departureTime),
+                        arrivalDateTime = TimeHelper.formatDateTimeOutput(it.arrivalTime),
+                        journeyTime = TimeHelper.getJourneyTime(it.departureTime, it.arrivalTime),
                         price = "£${it.tickets.first().priceInPennies.toDouble() / 100}"
                     )
                 }
 
                 view?.setTableData(data)
             } catch (e: Throwable) {
-                view?.createAlert("ERROR: Couldn't receive train data.", "Error")
+                view?.createAlert("ERROR: Error finding trains.", "Error")
             }
         }
     }
