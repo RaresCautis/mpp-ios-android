@@ -26,9 +26,15 @@ class ViewController: UIViewController, ApplicationContractView {
     @IBOutlet var arrivalPicker: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet var adultCounter: UILabel!
+    @IBOutlet var adultStepper: UIStepper!
+    @IBOutlet var childCounter: UILabel!
+    @IBOutlet var childStepper: UIStepper!
     
     private let tableViewCell: String = "TableViewCell"
-    
+
+    let maxNumberTickets: Double = 8
+
     private var tableData: [DepartureInformation] = [DepartureInformation]()
     
     private var stations: [String] = [String]()
@@ -43,6 +49,7 @@ class ViewController: UIViewController, ApplicationContractView {
         setUpPickers()
         setUpTable()
         setUpTimePicker()
+        setUpSteppers()
     }
     
     
@@ -50,7 +57,8 @@ class ViewController: UIViewController, ApplicationContractView {
         let originStation = stations[departurePicker.selectedRow(inComponent:0)]
         let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
         let dateTime = presenter.formatDateTimeInput(input: datePicker.date.description, format: "yyyy-MM-dd HH:mm:ss z")
-        presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime)
+    
+        presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime, adultCount: adultCounter.text ?? "1", childCount: childCounter.text ?? "0")
     }
 }
 
@@ -150,5 +158,25 @@ extension ViewController{
     func addHoursToTimeString(amount: Int, time: String) -> String {
         let hour = (Int(time.prefix(2))! + amount) % 24
         return String(hour) + time.suffix(time.count - 2)
+    }
+}
+
+extension ViewController{
+
+    func setUpSteppers() {
+        adultStepper.autorepeat = true
+        adultStepper.maximumValue = maxNumberTickets
+
+        childStepper.autorepeat = true
+        childStepper.maximumValue = maxNumberTickets
+    }
+
+    @IBAction func adultValueChanged(_ sender: UIStepper) {
+        adultCounter.text = Int(sender.value).description
+    }
+
+
+    @IBAction func childValueChanged(_ sender: UIStepper) {
+        childCounter.text = Int(sender.value).description
     }
 }

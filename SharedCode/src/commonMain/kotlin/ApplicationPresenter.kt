@@ -1,14 +1,16 @@
 package com.jetbrains.handson.mpp.mobile
 
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import kotlinx.serialization.json.Json
-import kotlin.math.floor
+import kotlinx.serialization.json.JsonConfiguration
 
 class ApplicationPresenter : ApplicationContract.Presenter() {
 
@@ -31,17 +33,13 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         view.setStationNames(stations)
     }
 
-    private suspend fun getAPITimeData(
-        originCrs: String,
-        destinationCrs: String,
-        dateTime: String
-    ): DepartureDetails {
-        val url = URLBuilder("${baseURL}v1/fares?").apply {
+    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String, dateTime: String, adultCount: String, childCount: String): DepartureDetails {
+        val url = URLBuilder("${baseURL}v1/fares?").apply{
             parameters["originStation"] = originCrs
             parameters["destinationStation"] = destinationCrs
             parameters["outboundDateTime"] = dateTime
-            parameters["numberOfChildren"] = "0"
-            parameters["numberOfAdults"] = "1"
+            parameters["numberOfChildren"] = childCount
+            parameters["numberOfAdults"] = adultCount
         }.build()
 
         return client.get {
@@ -49,10 +47,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
     }
 
-    override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String) {
-        launch {
+    override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String, adultCount: String, childCount: String) {
+        launch{
             try {
-                val departureDetails = getAPITimeData(originCrs, destinationCrs, dateTime)
+                val departureDetails =
+                    getAPITimeData(originCrs, destinationCrs, dateTime, adultCount, childCount)
 
                 val data = departureDetails.outboundJourneys.map {
                     DepartureInformation(
@@ -64,8 +63,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 }
 
                 view?.setTableData(data)
-            } catch (e: Throwable) {
-                view?.createAlert("ERROR: Error finding trains.", "Error")
+            } catch (e: ClientRequestException) {
+                val responseText = e.response.readText()
+                val json = Json(JsonConfiguration.Stable)
+                val description = json.parse(ErrorResponse.serializer(), responseText)
+                view?.createAlert(description.error_description, "ERROR")
             }
         }
     }

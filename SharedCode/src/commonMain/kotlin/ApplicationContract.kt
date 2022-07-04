@@ -11,7 +11,7 @@ interface ApplicationContract {
 
     abstract class Presenter : CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String)
+        abstract fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String, adultCount: String, childCount: String)
         abstract fun formatDateTimeInput(input: String, format: String): String
     }
 }
