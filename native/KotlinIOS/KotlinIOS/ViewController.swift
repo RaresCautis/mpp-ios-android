@@ -2,6 +2,7 @@ import UIKit
 import SharedCode
 
 class TableViewCell: UITableViewCell {
+    
     @IBOutlet var departureTime: UILabel!
     @IBOutlet var departureDate: UILabel!
     @IBOutlet var arrivalTime: UILabel!
@@ -17,7 +18,6 @@ class TableViewCell: UITableViewCell {
     func flipTrainEmoji(){
         trainEmojiLabel.transform = CGAffineTransform(scaleX: -1.5, y: 1.5);
     }
-    
 }
 
 class ViewController: UIViewController, ApplicationContractView {
@@ -36,10 +36,7 @@ class ViewController: UIViewController, ApplicationContractView {
     let maxNumberTickets: Double = 8
 
     private var tableData: [DepartureInformation] = [DepartureInformation]()
-    
     private var stations: [String] = [String]()
-    
-
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
     override func viewDidLoad() {
@@ -51,7 +48,6 @@ class ViewController: UIViewController, ApplicationContractView {
         setUpTimePicker()
         setUpSteppers()
     }
-    
     
     @IBAction func submitButtonTapped() {
         let originStation = stations[departurePicker.selectedRow(inComponent:0)]

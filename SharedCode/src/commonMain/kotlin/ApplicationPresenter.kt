@@ -33,8 +33,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         view.setStationNames(stations)
     }
 
-    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String, dateTime: String, adultCount: String, childCount: String): DepartureDetails {
-        val url = URLBuilder("${baseURL}v1/fares?").apply{
+    private suspend fun getAPITimeData(
+        originCrs: String,
+        destinationCrs: String,
+        dateTime: String,
+        adultCount: String,
+        childCount: String
+    ): DepartureDetails {
+        val url = URLBuilder("${baseURL}v1/fares?").apply {
             parameters["originStation"] = originCrs
             parameters["destinationStation"] = destinationCrs
             parameters["outboundDateTime"] = dateTime
@@ -47,8 +53,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
     }
 
-    override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String, adultCount: String, childCount: String) {
-        launch{
+    override fun makeTrainSearch(
+        originCrs: String,
+        destinationCrs: String,
+        dateTime: String,
+        adultCount: String,
+        childCount: String
+    ) {
+        launch {
             try {
                 val departureDetails =
                     getAPITimeData(originCrs, destinationCrs, dateTime, adultCount, childCount)
@@ -75,7 +87,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun formatDateTimeInput(input: String, format: String) =
         TimeHelper.formatDateTimeInput(input, format)
 
-    private fun pricePenniesToPounds(price: Int) : String {
+    private fun pricePenniesToPounds(price: Int): String {
         val pounds = price / 100
         val pennies = "${price % 100}".padStart(2, '0')
 
