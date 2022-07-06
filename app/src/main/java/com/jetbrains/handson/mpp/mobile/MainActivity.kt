@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.get
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recyclerview_row.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -38,8 +37,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         builder.setMessage(alertMessage)
         val alertDialog: AlertDialog = builder.create()
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay") {
-                dialog, _ -> dialog.dismiss()
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay") { dialog, _ ->
+            dialog.dismiss()
         }
 
         alertDialog.show()
@@ -47,15 +46,16 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     override fun setTableData(data: List<DepartureInformation>) {
         val tableData = data.map {
-            RecyclerViewCell(it.departureDateTime.time,
+            RecyclerViewCell(
+                it.departureDateTime.time,
                 it.departureDateTime.date,
                 it.arrivalDateTime.time,
                 it.arrivalDateTime.date,
                 it.price,
-                it.journeyTime)
+                it.journeyTime
+            )
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
 
         recyclerView.layoutManager = layoutManager
@@ -66,50 +66,40 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             this, android.R.layout.simple_spinner_item, stations
         )
-        findViewById<Spinner>(R.id.departureSpinner).adapter = adapter
-        findViewById<Spinner>(R.id.arrivalSpinner).adapter = adapter
+        departureSpinner.adapter = adapter
+        arrivalSpinner.adapter = adapter
     }
 
     private fun setUpSubmitButton() {
-        val submitButton = findViewById<Button>(R.id.submitButton)
+        val submitButton = submitButton
         submitButton.setOnClickListener { submitButtonTapped() }
     }
 
     private fun submitButtonTapped() {
-        val originStation = findViewById<Spinner>(R.id.departureSpinner).selectedItem.toString()
-        val finalStation = findViewById<Spinner>(R.id.arrivalSpinner).selectedItem.toString()
+        val originStation = departureSpinner.selectedItem.toString()
+        val finalStation = arrivalSpinner.selectedItem.toString()
         val dateTime = getSelectedDate()
         presenter.makeTrainSearch(originStation, finalStation, dateTime)
 
 
     }
-    private fun getSelectedDate() : String {
-        val selectedDate = findViewById<DatePicker>(R.id.datePicker)
-        val day = addZeroToDateTime(selectedDate.dayOfMonth)
-        val month = addZeroToDateTime(selectedDate.month + 1)
-        val year = "${selectedDate.year}"
 
-        val selectedTime = findViewById<TimePicker>(R.id.timePicker)
-        val hour = addZeroToDateTime(selectedTime.hour)
-        val minute = addZeroToDateTime(selectedTime.minute)
+    private fun getSelectedDate(): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(
+            datePicker.year,
+            datePicker.month,
+            datePicker.dayOfMonth,
+            timePicker.hour,
+            timePicker.minute
+        )
 
-        return year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00.000+01:00"
+        return presenter.formatDateTimeInput(calendar.time.toString(), "EEE MMM d HH:mm:ss z yyyy")
     }
 
     private fun setUpTimePicker() {
-        val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.setIs24HourView(true)
         timePicker.currentHour = timePicker.currentHour + 1
     }
-
-    private fun addZeroToDateTime(value: Int) : String {
-        return if (value < 10) {
-            "0$value"
-        } else {"$value"}
-    }
-
-
-
-
 
 }
