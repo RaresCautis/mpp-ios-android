@@ -6,36 +6,40 @@ import kotlin.math.floor
 
 class TimeHelper {
     companion object {
-        fun getJourneyTime(departureTime: String, arrivalTime: String) : String {
-            val dateFormat: DateFormat = DateFormat("yyyy-MM-ddTHH:mm")
-
-            val departureDate = dateFormat.parse("${departureTime.subSequence(0,16)}")
-            val arrivalDate = dateFormat.parse("${arrivalTime.subSequence(0,16)}")
+        fun getJourneyTime(departureTime: String, arrivalTime: String): String {
+            val dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            val departureDate = dateFormat.parse(departureTime)
+            val arrivalDate = dateFormat.parse(arrivalTime)
 
             val journeyTimeHours = floor((arrivalDate - departureDate).hours).toInt()
-            val journeyTimeMinutes= floor((arrivalDate - departureDate).minutes % 60).toInt()
+            val journeyTimeMinutes = floor((arrivalDate - departureDate).minutes % 60).toInt()
 
             return addZeroToDateTime(journeyTimeHours) + ":" + addZeroToDateTime(journeyTimeMinutes)
         }
 
-        private fun addZeroToDateTime(value: Int) : String {
+        private fun addZeroToDateTime(value: Int): String {
             return if (value < 10) {
                 "0$value"
-            } else {"$value"}
+            } else {
+                "$value"
+            }
         }
 
-        fun formatDateTimeOutput(dateTime: String) : DateTime {
+        fun formatDateTimeOutput(dateTime: String): DateTimeStrings {
             val journeyDateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-            val utcDateTime = journeyDateFormat.parse(dateTime).utc
+            val utcDateTime = journeyDateFormat.parse(dateTime).utc.local
 
             val date = utcDateTime.format("yyyy-MM-dd")
             val time = utcDateTime.format("HH:mm")
 
-
-            return DateTime(date, time)
-
+            return DateTimeStrings(date, time)
         }
 
+        fun formatDateTimeInput(input: String, format: String): String {
+            val dateTime = DateFormat(format).parse(input).utc.local
+
+            return dateTime.format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        }
 
     }
 }

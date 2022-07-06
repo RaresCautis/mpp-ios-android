@@ -2,13 +2,13 @@ import UIKit
 import SharedCode
 
 class TableViewCell: UITableViewCell {
-    @IBOutlet weak var departureTime: UILabel!
-    @IBOutlet weak var departureDate: UILabel!
-    @IBOutlet weak var arrivalTime: UILabel!
-    @IBOutlet weak var arrivalDate: UILabel!
-    @IBOutlet weak var trainEmojiLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var journeyTimeLabel: UILabel!
+    @IBOutlet var departureTime: UILabel!
+    @IBOutlet var departureDate: UILabel!
+    @IBOutlet var arrivalTime: UILabel!
+    @IBOutlet var arrivalDate: UILabel!
+    @IBOutlet var trainEmojiLabel: UILabel!
+    @IBOutlet var priceLabel: UILabel!
+    @IBOutlet var journeyTimeLabel: UILabel!
     
     override func awakeFromNib() {
         flipTrainEmoji()
@@ -22,10 +22,10 @@ class TableViewCell: UITableViewCell {
 
 class ViewController: UIViewController, ApplicationContractView {
 
-    @IBOutlet weak var departurePicker: UIPickerView!
-    @IBOutlet weak var arrivalPicker: UIPickerView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet var departurePicker: UIPickerView!
+    @IBOutlet var arrivalPicker: UIPickerView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var datePicker: UIDatePicker!
     
     private let tableViewCell: String = "TableViewCell"
     
@@ -49,21 +49,8 @@ class ViewController: UIViewController, ApplicationContractView {
     @IBAction func submitButtonTapped() {
         let originStation = stations[departurePicker.selectedRow(inComponent:0)]
         let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
-        let dateTime = convertDateToCorrectFormat(date: datePicker.date)
+        let dateTime = presenter.formatDateTimeInput(input: datePicker.date.description, format: "yyyy-MM-dd HH:mm:ss z")
         presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime)
-    }
-}
-
-extension ViewController {
-    func convertDateToCorrectFormat(date: Date) -> String {
-        let dateString = date.description
-        let date = dateString.prefix(10)
-        
-        let start = dateString.index(dateString.startIndex, offsetBy: 11)
-        let end = dateString.index(dateString.startIndex, offsetBy: 18)
-        let time = String(dateString[start...end])
-        
-        return date + "T" + time + ".000+00:00"
     }
 }
 

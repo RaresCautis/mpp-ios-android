@@ -96,11 +96,9 @@
                 <Button
                     android:id="@+id/submitButton"
                     android:text="@string/submitButton"
-                    android:textAllCaps="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_red_background"
-                    android:textColor="@color/white"/>
+                    style="@style/Button"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

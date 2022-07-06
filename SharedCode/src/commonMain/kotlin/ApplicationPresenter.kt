@@ -8,16 +8,17 @@ import io.ktor.http.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import kotlinx.serialization.json.Json
+import kotlin.math.floor
 
-class ApplicationPresenter: ApplicationContract.Presenter() {
+class ApplicationPresenter : ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val stations = listOf("KGX","EDB", "YRK", "DHM", "NCL")
+    private val stations = listOf("KGX", "EDB", "YRK", "DHM", "NCL")
     private val baseURL = "https://mobile-api-softwire2.lner.co.uk/"
-    private val client = HttpClient{
-        install(JsonFeature){
+    private val client = HttpClient {
+        install(JsonFeature) {
             serializer = KotlinxSerializer(Json.nonstrict)
         }
     }
@@ -30,8 +31,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setStationNames(stations)
     }
 
-    private suspend fun getAPITimeData(originCrs: String, destinationCrs: String, dateTime: String): DepartureDetails {
-        val url = URLBuilder("${baseURL}v1/fares?").apply{
+    private suspend fun getAPITimeData(
+        originCrs: String,
+        destinationCrs: String,
+        dateTime: String
+    ): DepartureDetails {
+        val url = URLBuilder("${baseURL}v1/fares?").apply {
             parameters["originStation"] = originCrs
             parameters["destinationStation"] = destinationCrs
             parameters["outboundDateTime"] = dateTime
@@ -39,14 +44,14 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             parameters["numberOfAdults"] = "1"
         }.build()
 
-        return client.get{
+        return client.get {
             url(url)
         }
     }
 
     override fun makeTrainSearch(originCrs: String, destinationCrs: String, dateTime: String) {
-        launch{
-            try{
+        launch {
+            try {
                 val departureDetails = getAPITimeData(originCrs, destinationCrs, dateTime)
 
                 val data = departureDetails.outboundJourneys.map {
@@ -54,7 +59,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                         departureDateTime = TimeHelper.formatDateTimeOutput(it.departureTime),
                         arrivalDateTime = TimeHelper.formatDateTimeOutput(it.arrivalTime),
                         journeyTime = TimeHelper.getJourneyTime(it.departureTime, it.arrivalTime),
-                        price = "£${it.tickets.first().priceInPennies.toDouble() / 100}"
+                        price = pricePenniesToPounds(it.tickets.first().priceInPennies)
                     )
                 }
 
@@ -63,5 +68,15 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 view?.createAlert("ERROR: Error finding trains.", "Error")
             }
         }
+    }
+
+    override fun formatDateTimeInput(input: String, format: String) =
+        TimeHelper.formatDateTimeInput(input, format)
+
+    private fun pricePenniesToPounds(price: Int) : String {
+        val pounds = price / 100
+        val pennies = "${price % 100}".padStart(2, '0')
+
+        return "£${pounds}.${pennies}"
     }
 }

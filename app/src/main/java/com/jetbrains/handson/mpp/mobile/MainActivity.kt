@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recyclerview_row.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -36,8 +37,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         builder.setMessage(alertMessage)
         val alertDialog: AlertDialog = builder.create()
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay") {
-                dialog, _ -> dialog.dismiss()
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay") { dialog, _ ->
+            dialog.dismiss()
         }
 
         alertDialog.show()
@@ -45,12 +46,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     override fun setTableData(data: List<DepartureInformation>) {
         val tableData = data.map {
-            RecyclerViewCell(it.departureDateTime.time,
+            RecyclerViewCell(
+                it.departureDateTime.time,
                 it.departureDateTime.date,
                 it.arrivalDateTime.time,
                 it.arrivalDateTime.date,
                 it.price,
-                it.journeyTime)
+                it.journeyTime
+            )
         }
 
         val layoutManager = LinearLayoutManager(this)
@@ -80,30 +83,23 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
 
     }
-    private fun getSelectedDate() : String {
-        val day = addZeroToDateTime(datePicker.dayOfMonth)
-        val month = addZeroToDateTime(datePicker.month + 1)
-        val year = "${datePicker.year}"
 
-        val hour = addZeroToDateTime(timePicker.hour)
-        val minute = addZeroToDateTime(timePicker.minute)
+    private fun getSelectedDate(): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(
+            datePicker.year,
+            datePicker.month,
+            datePicker.dayOfMonth,
+            timePicker.hour,
+            timePicker.minute
+        )
 
-        return year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00.000+01:00"
+        return presenter.formatDateTimeInput(calendar.time.toString(), "EEE MMM d HH:mm:ss z yyyy")
     }
 
     private fun setUpTimePicker() {
         timePicker.setIs24HourView(true)
         timePicker.currentHour = timePicker.currentHour + 1
     }
-
-    private fun addZeroToDateTime(value: Int) : String {
-        return if (value < 10) {
-            "0$value"
-        } else {"$value"}
-    }
-
-
-
-
 
 }
