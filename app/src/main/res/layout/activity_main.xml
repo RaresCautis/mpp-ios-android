@@ -7,55 +7,105 @@
         tools:context=".MainActivity">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/linen">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/main_text"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_divider_vertical_small"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title"
-                style="@style/Text.Title"/>
+                android:orientation="horizontal"
+                android:divider="@drawable/empty_divider_horizontal_large"
+                android:showDividers="middle">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/departureLabel"
+                        android:text="@string/departureLabel"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/Text.Large"
+                        />
+
+                    <Spinner
+                        android:id="@+id/departureSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/arrivalLabel"
+                        android:text="@string/arrivalLabel"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/Text.Large"
+                        />
+
+                    <Spinner
+                        android:id="@+id/arrivalSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/departureLabel"
-                android:text="@string/departureLabel"
+                android:id="@+id/selectTimeLabel"
+                android:text="@string/selectTimeLabel"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                style="@style/Text.Subtitle"
+                style="@style/Text.Large"
                 />
 
-            <Spinner
-                android:id="@+id/departureSpinner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/arrivalLabel"
-                android:text="@string/arrivalLabel"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                style="@style/Text.Subtitle"
-                />
+                android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/arrivalSpinner"
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"
+                    android:background="@drawable/border"/>
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:timePickerMode="spinner"
+                    android:background="@drawable/border"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/submitButton"
-                android:text="@string/submitButton"
-                android:textAllCaps="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/submitButton"
+                    android:text="@string/submitButton"
+                    android:textAllCaps="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_red_background"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/recyclerview_row"/>
         </LinearLayout>

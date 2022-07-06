@@ -12,14 +12,29 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="Text.Title">
-        <item name="android:textSize">42sp</item>
+    <style name="Text.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Text.White.Subtitle">
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Text.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="Text.Subtitle">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RecyclerCell">
+        <item name="android:layout_marginTop">10sp</item>
+    </style>
+
+    <style name="RecyclerCell.Text" parent="Text">
     </style>
 
 </resources>
