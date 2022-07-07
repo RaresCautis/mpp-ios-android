@@ -39,3 +39,14 @@ data class DateTimeStrings (
     val date: String,
     val time: String
     )
+
+@Serializable
+data class Stations (
+    val stations: List<StationDetails>
+        )
+
+@Serializable
+data class StationDetails (
+    val name: String,
+    val crs: String ?
+        )

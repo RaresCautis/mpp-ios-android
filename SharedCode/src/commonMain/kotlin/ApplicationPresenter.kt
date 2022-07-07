@@ -17,7 +17,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val stations = listOf("KGX", "EDB", "YRK", "DHM", "NCL")
     private val baseURL = "https://mobile-api-softwire2.lner.co.uk/"
     private val client = HttpClient {
         install(JsonFeature) {
@@ -28,9 +27,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
+
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
-        view.setStationNames(stations)
+        launch {
+           view.setStationNames(StationHelper.getStations())
+        }
     }
 
     private suspend fun getAPITimeData(
@@ -73,6 +75,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                         price = pricePenniesToPounds(it.tickets.first().priceInPennies)
                     )
                 }
+
+                if (data.isEmpty()) view?.createAlert("No valid journey.", "ERROR")
+
 
                 view?.setTableData(data)
             } catch (e: ClientRequestException) {

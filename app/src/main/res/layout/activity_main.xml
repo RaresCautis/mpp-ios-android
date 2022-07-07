@@ -36,10 +36,11 @@
                         style="@style/Text.Large"
                         />
 
-                    <Spinner
+                    <pl.utkala.searchablespinner.SearchableSpinner
                         android:id="@+id/departureSpinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -53,7 +54,7 @@
                         style="@style/Text.Large"
                         />
 
-                    <Spinner
+                    <pl.utkala.searchablespinner.SearchableSpinner
                         android:id="@+id/arrivalSpinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>

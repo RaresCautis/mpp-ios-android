@@ -22,14 +22,14 @@ class TableViewCell: UITableViewCell {
 
 class ViewController: UIViewController, ApplicationContractView {
 
-    @IBOutlet var departurePicker: UIPickerView!
-    @IBOutlet var arrivalPicker: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var datePicker: UIDatePicker!
     @IBOutlet var adultCounter: UILabel!
     @IBOutlet var adultStepper: UIStepper!
     @IBOutlet var childCounter: UILabel!
     @IBOutlet var childStepper: UIStepper!
+    @IBOutlet var originStationButton: UIButton!
+    @IBOutlet var departureStationButton: UIButton!
     
     private let tableViewCell: String = "TableViewCell"
 
@@ -43,19 +43,29 @@ class ViewController: UIViewController, ApplicationContractView {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         
-        setUpPickers()
         setUpTable()
         setUpTimePicker()
         setUpSteppers()
     }
     
     @IBAction func submitButtonTapped() {
-        let originStation = stations[departurePicker.selectedRow(inComponent:0)]
-        let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
+        let originStation = originStationButton.titleLabel!.text!
+        let finalStation = departureStationButton.titleLabel!.text!
         let dateTime = presenter.formatDateTimeInput(input: datePicker.date.description, format: "yyyy-MM-dd HH:mm:ss z")
     
         presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime, adultCount: adultCounter.text ?? "1", childCount: childCounter.text ?? "0")
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is SearchViewController {
+            let vc = segue.destination as? SearchViewController
+            vc?.stations = stations
+            vc?.delegate = self
+            vc?.button = (sender as! UIButton)
+        }
+    }
+    
+    
 }
 
 extension ViewController {
@@ -63,30 +73,6 @@ extension ViewController {
         stations = stationNames
     }
 }
-
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func setUpPickers() {
-        self.departurePicker.delegate = self
-        self.departurePicker.dataSource = self
-        
-        self.arrivalPicker.delegate = self
-        self.arrivalPicker.dataSource = self
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView:UIPickerView, numberOfRowsInComponent component:Int) -> Int {
-        return stations.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return stations[row]
-    }
-}
-
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -174,5 +160,11 @@ extension ViewController{
 
     @IBAction func childValueChanged(_ sender: UIStepper) {
         childCounter.text = Int(sender.value).description
+    }
+}
+
+extension ViewController: SearchDelegate {
+    func updateButtons(text: String, button: UIButton) {
+        button.setTitle(text, for: .normal)
     }
 }

@@ -29,14 +29,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        setUpSpinners()
         setUpSubmitButton()
         setUpTimePicker()
         supportActionBar?.setTitle("Train\uD83D\uDE82")
     }
 
-    override fun setStationNames(stationNames: List<String>) {
-        stations = stationNames
+    override fun setStationNames(stationNames: List<StationDetails>) {
+        stations = stationNames.map { it.crs!! }
+        setUpSpinners()
     }
 
     override fun createAlert(alertMessage: String, alertTitle: String) {
@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     private fun submitButtonTapped() {
-        val originStation = departureSpinner.selectedItem.toString()
-        val finalStation = arrivalSpinner.selectedItem.toString()
+        val originStation = "${departureSpinner.selectedItem}"
+        val finalStation = "${arrivalSpinner.selectedItem}"
         val dateTime = getSelectedDate()
         val adultCount = "${adultCounter.text}"
         val childCount = "${childCounter.text}"
