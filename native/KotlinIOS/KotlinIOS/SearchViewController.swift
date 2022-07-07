@@ -3,6 +3,7 @@ import SharedCode
 
 class StationSearchCell: UITableViewCell {
     @IBOutlet var stationName: UILabel!
+    @IBOutlet var stationCrs: UILabel!
 }
 
 class SearchViewController: UIViewController, StationSearchContractView {
@@ -11,8 +12,8 @@ class SearchViewController: UIViewController, StationSearchContractView {
     
     weak var delegate: SearchDelegate?
     private let stationSearchCell = "StationSearchCell"
-    var stations: [String] = [String]()
-    var filteredStations: [String] = []
+    var stations: [StationDetails] = [StationDetails]()
+    var filteredStations: [StationDetails] = []
     private let presenter: StationSearchContractPresenter = StationSearchPresenter()
     weak var button: UIButton?
     
@@ -43,7 +44,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UISe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
         UITableViewCell {
-            if let cell = searchTableView.dequeueReusableCell(withIdentifier: stationSearchCell, for: indexPath) as? StationSearchCell{ cell.stationName.text = filteredStations[indexPath.row]
+        if let cell = searchTableView.dequeueReusableCell(withIdentifier: stationSearchCell, for: indexPath) as? StationSearchCell{ cell.stationName.text = filteredStations[indexPath.row].name
+            cell.stationCrs.text = filteredStations[indexPath.row].crs
             return cell
         }
         
@@ -55,18 +57,22 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UISe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let string = filteredStations[indexPath.row]
-        self.delegate?.updateButtons(text: string, button: button!)
+        let stationCrs = filteredStations[indexPath.row].crs!
+        self.delegate?.updateButtons(text: stationCrs, button: button!)
         dismiss(animated: true, completion: nil)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        filteredStations = searchText.isEmpty ? stations : stations.filter { (item: String) -> Bool in return item.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        filteredStations = searchText.isEmpty ? stations : stations.filter { (item: StationDetails) -> Bool in return checkStringContains(input:item.crs!, substring: searchText) || checkStringContains(input:item.name, substring: searchText)
         }
         
         searchTableView.reloadData()
     }
+}
+
+func checkStringContains(input: String, substring: String) -> Bool {
+    return input.range(of: substring, options: .caseInsensitive, range: nil, locale: nil) != nil
 }
 
 protocol SearchDelegate : AnyObject {

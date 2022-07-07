@@ -36,7 +36,7 @@ class ViewController: UIViewController, ApplicationContractView {
     let maxNumberTickets: Double = 8
 
     private var tableData: [DepartureInformation] = [DepartureInformation]()
-    private var stations: [String] = [String]()
+    private var stations: [StationDetails] = [StationDetails]()
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
     override func viewDidLoad() {
@@ -69,7 +69,7 @@ class ViewController: UIViewController, ApplicationContractView {
 }
 
 extension ViewController {
-    func setStationNames(stationNames: Array<String>) {
+    func setStationNames(stationNames: Array<StationDetails>) {
         stations = stationNames
     }
 }
