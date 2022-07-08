@@ -2,6 +2,7 @@ package com.jetbrains.handson.mpp.mobile
 
 import com.soywiz.klock.DateFormat
 import com.soywiz.klock.parse
+import kotlin.math.abs
 import kotlin.math.floor
 
 class TimeHelper {
@@ -14,11 +15,14 @@ class TimeHelper {
             val journeyTimeHours = floor((arrivalDate - departureDate).hours).toInt()
             val journeyTimeMinutes = floor((arrivalDate - departureDate).minutes % 60).toInt()
 
+            if(journeyTimeHours < 0 || journeyTimeMinutes < 0)
+                return "INVALID JOURNEY TIME"
+
             return addZeroToDateTime(journeyTimeHours) + ":" + addZeroToDateTime(journeyTimeMinutes)
         }
 
         private fun addZeroToDateTime(value: Int): String {
-            return if (value < 10) {
+            return if (abs(value) < 10) {
                 "0$value"
             } else {
                 "$value"

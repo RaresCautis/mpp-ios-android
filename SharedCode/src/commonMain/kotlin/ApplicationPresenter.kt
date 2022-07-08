@@ -72,7 +72,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                         departureDateTime = TimeHelper.formatDateTimeOutput(it.departureTime),
                         arrivalDateTime = TimeHelper.formatDateTimeOutput(it.arrivalTime),
                         journeyTime = TimeHelper.getJourneyTime(it.departureTime, it.arrivalTime),
-                        price = pricePenniesToPounds(it.tickets.first().priceInPennies)
+                        price = pennyConversion(it.tickets.first().priceInPennies)
                     )
                 }
 
@@ -92,7 +92,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun formatDateTimeInput(input: String, format: String) =
         TimeHelper.formatDateTimeInput(input, format)
 
-    private fun pricePenniesToPounds(price: Int): String {
+    fun pennyConversion(price: Int): String {
         val pounds = price / 100
         val pennies = "${price % 100}".padStart(2, '0')
 
