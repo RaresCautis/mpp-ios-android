@@ -2,27 +2,16 @@ package com.jetbrains.handson.mpp.mobile
 
 import com.soywiz.klock.DateFormat
 import com.soywiz.klock.parse
+import kotlin.math.abs
 import kotlin.math.floor
 
 class TimeHelper {
     companion object {
-        fun getJourneyTime(departureTime: String, arrivalTime: String): String {
-            val dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-            val departureDate = dateFormat.parse(departureTime)
-            val arrivalDate = dateFormat.parse(arrivalTime)
+        fun getJourneyTime(timeInMinutes: Int): String {
+            val hours = timeInMinutes / 60
+            val minutes = "${timeInMinutes % 60}".padStart(2, '0')
 
-            val journeyTimeHours = floor((arrivalDate - departureDate).hours).toInt()
-            val journeyTimeMinutes = floor((arrivalDate - departureDate).minutes % 60).toInt()
-
-            return addZeroToDateTime(journeyTimeHours) + ":" + addZeroToDateTime(journeyTimeMinutes)
-        }
-
-        private fun addZeroToDateTime(value: Int): String {
-            return if (value < 10) {
-                "0$value"
-            } else {
-                "$value"
-            }
+            return "$hours:$minutes"
         }
 
         fun formatDateTimeOutput(dateTime: String): DateTimeStrings {
@@ -40,6 +29,5 @@ class TimeHelper {
 
             return dateTime.format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
         }
-
     }
 }

@@ -2,6 +2,7 @@ import UIKit
 import SharedCode
 
 class TableViewCell: UITableViewCell {
+    
     @IBOutlet var departureTime: UILabel!
     @IBOutlet var departureDate: UILabel!
     @IBOutlet var arrivalTime: UILabel!
@@ -17,72 +18,59 @@ class TableViewCell: UITableViewCell {
     func flipTrainEmoji(){
         trainEmojiLabel.transform = CGAffineTransform(scaleX: -1.5, y: 1.5);
     }
-    
 }
 
 class ViewController: UIViewController, ApplicationContractView {
 
-    @IBOutlet var departurePicker: UIPickerView!
-    @IBOutlet var arrivalPicker: UIPickerView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet var adultCounter: UILabel!
+    @IBOutlet var adultStepper: UIStepper!
+    @IBOutlet var childCounter: UILabel!
+    @IBOutlet var childStepper: UIStepper!
+    @IBOutlet var originStationButton: UIButton!
+    @IBOutlet var departureStationButton: UIButton!
     
     private let tableViewCell: String = "TableViewCell"
-    
-    private var tableData: [DepartureInformation] = [DepartureInformation]()
-    
-    private var stations: [String] = [String]()
-    
 
+    let maxNumberTickets: Double = 8
+
+    private var tableData: [DepartureInformation] = [DepartureInformation]()
+    private var stations: [StationDetails] = [StationDetails]()
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
+    private var originStationCRS: String = ""
+    private var destinationStationCRS: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         
-        setUpPickers()
         setUpTable()
         setUpTimePicker()
+        setUpSteppers()
     }
     
-    
     @IBAction func submitButtonTapped() {
-        let originStation = stations[departurePicker.selectedRow(inComponent:0)]
-        let finalStation = stations[arrivalPicker.selectedRow(inComponent:0)]
         let dateTime = presenter.formatDateTimeInput(input: datePicker.date.description, format: "yyyy-MM-dd HH:mm:ss z")
-        presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime)
+        
+        presenter.makeTrainSearch(originCrs: originStationCRS, destinationCrs: destinationStationCRS, dateTime: dateTime, adultCount: adultCounter.text!, childCount: childCounter.text!)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is SearchViewController {
+            let vc = segue.destination as? SearchViewController
+            vc?.stations = stations
+            vc?.delegate = self
+            vc?.button = (sender as! UIButton)
+        }
     }
 }
 
 extension ViewController {
-    func setStationNames(stationNames: Array<String>) {
+    func setStationNames(stationNames: Array<StationDetails>) {
         stations = stationNames
     }
 }
-
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func setUpPickers() {
-        self.departurePicker.delegate = self
-        self.departurePicker.dataSource = self
-        
-        self.arrivalPicker.delegate = self
-        self.arrivalPicker.dataSource = self
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView:UIPickerView, numberOfRowsInComponent component:Int) -> Int {
-        return stations.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return stations[row]
-    }
-}
-
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -125,7 +113,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ViewController{
     
-    func createAlert(alertMessage: String, alertTitle: String){
+    func createAlert(alertTitle: String, alertMessage: String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -150,5 +138,39 @@ extension ViewController{
     func addHoursToTimeString(amount: Int, time: String) -> String {
         let hour = (Int(time.prefix(2))! + amount) % 24
         return String(hour) + time.suffix(time.count - 2)
+    }
+}
+
+extension ViewController{
+
+    func setUpSteppers() {
+        adultStepper.autorepeat = true
+        adultStepper.maximumValue = maxNumberTickets
+
+        childStepper.autorepeat = true
+        childStepper.maximumValue = maxNumberTickets
+    }
+
+    @IBAction func adultValueChanged(_ sender: UIStepper) {
+        adultCounter.text = Int(sender.value).description
+    }
+
+
+    @IBAction func childValueChanged(_ sender: UIStepper) {
+        childCounter.text = Int(sender.value).description
+    }
+}
+
+extension ViewController: SearchDelegate {
+    func updateButtons(text: String, button: UIButton) {
+        button.setTitle(text, for: .normal)
+        switch button {
+        case originStationButton:
+            originStationCRS = text
+        case departureStationButton:
+            destinationStationCRS = text
+        default:
+            break
+        }
     }
 }

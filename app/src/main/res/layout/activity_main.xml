@@ -16,29 +16,31 @@
             android:showDividers="middle"
             android:divider="@drawable/empty_divider_vertical_small"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+            android:layout_marginEnd="5dp"
+            android:gravity="center">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:divider="@drawable/empty_divider_horizontal_large"
-                android:showDividers="middle">
+                android:showDividers="middle"
+                android:layout_gravity="center">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/departureLabel"
                         android:text="@string/departureLabel"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         style="@style/Text.Large"
                         />
 
-                    <Spinner
+                    <pl.utkala.searchablespinner.SearchableSpinner
                         android:id="@+id/departureSpinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -46,14 +48,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/arrivalLabel"
                         android:text="@string/arrivalLabel"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         style="@style/Text.Large"
                         />
 
-                    <Spinner
+                    <pl.utkala.searchablespinner.SearchableSpinner
                         android:id="@+id/arrivalSpinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -87,6 +88,89 @@
                     android:layout_height="wrap_content"
                     android:timePickerMode="spinner"
                     android:background="@drawable/border"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:divider="@drawable/empty_divider_horizontal_large"
+                android:showDividers="middle"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/adultLabel"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/Text.Large"
+                        />
+
+                    <TextView
+                        android:id="@+id/adultCounter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/one"
+                        style="@style/Text"/>
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/adultDec"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/minus"
+                            android:onClick="counterButtonTapped"/>
+                        <Button
+                            android:id="@+id/adultInc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/plus"
+                            android:onClick="counterButtonTapped"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/childLabel"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/Text.Large"
+                        />
+                    <TextView
+                        android:id="@+id/childCounter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero"
+                        style="@style/Text"/>
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/childDec"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/minus"
+                            android:onClick="counterButtonTapped"/>
+                        <Button
+                            android:id="@+id/childInc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/plus"
+                            android:onClick="counterButtonTapped"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

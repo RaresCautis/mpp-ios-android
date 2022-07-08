@@ -3,6 +3,9 @@ package com.jetbrains.handson.mpp.mobile
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class ErrorResponse(val error: String, val error_description: String)
+
+@Serializable
 data class DepartureDetails (
     val outboundJourneys : List<JourneyDetails>
     )
@@ -12,7 +15,8 @@ data class JourneyDetails (
     val departureTime: String,
     val arrivalTime: String,
     val primaryTrainOperator: TrainOperatorDetails,
-    val tickets: List<TicketDetails>
+    val tickets: List<TicketDetails>,
+    val journeyDurationInMinutes: Int
     )
 
 @Serializable
@@ -36,3 +40,14 @@ data class DateTimeStrings (
     val date: String,
     val time: String
     )
+
+@Serializable
+data class Stations (
+    val stations: List<StationDetails>
+        )
+
+@Serializable
+data class StationDetails (
+    val name: String,
+    val crs: String ?
+        )

@@ -18,6 +18,8 @@
 		47729E6F22F4806C00B9B36B /* SharedCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47729E6D22F4806B00B9B36B /* SharedCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C531673286B036B00985950 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C531672286B036B00985950 /* TableViewCell.xib */; };
 		7C969BE6286E022700B2464C /* DesignTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C969BE5286E022700B2464C /* DesignTools.swift */; };
+		7C99070B2875E98500049B49 /* StationSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C99070A2875E98500049B49 /* StationSearchCell.xib */; };
+		7C99070D2875ED3900049B49 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C99070C2875ED3900049B49 /* SearchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		47729E0222F447C800B9B36B /* KotlinIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotlinIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		47729E0222F447C800B9B36B /* Train.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Train.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47729E0522F447C800B9B36B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47729E0722F447C800B9B36B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		47729E0A22F447C800B9B36B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		47729E6D22F4806B00B9B36B /* SharedCode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SharedCode.framework; path = "../../SharedCode/build/xcode-frameworks/SharedCode.framework"; sourceTree = "<group>"; };
 		7C531672286B036B00985950 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		7C969BE5286E022700B2464C /* DesignTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTools.swift; sourceTree = "<group>"; };
+		7C99070A2875E98500049B49 /* StationSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StationSearchCell.xib; sourceTree = "<group>"; };
+		7C99070C2875ED3900049B49 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +114,7 @@
 		47729E0322F447C800B9B36B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				47729E0222F447C800B9B36B /* KotlinIOS.app */,
+				47729E0222F447C800B9B36B /* Train.app */,
 				47729E1622F447CA00B9B36B /* KotlinIOSTests.xctest */,
 				47729E2122F447CA00B9B36B /* KotlinIOSUITests.xctest */,
 			);
@@ -128,6 +132,8 @@
 				47729E1122F447CA00B9B36B /* Info.plist */,
 				7C531672286B036B00985950 /* TableViewCell.xib */,
 				7C969BE5286E022700B2464C /* DesignTools.swift */,
+				7C99070A2875E98500049B49 /* StationSearchCell.xib */,
+				7C99070C2875ED3900049B49 /* SearchViewController.swift */,
 			);
 			path = KotlinIOS;
 			sourceTree = "<group>";
@@ -153,9 +159,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		47729E0122F447C800B9B36B /* KotlinIOS */ = {
+		47729E0122F447C800B9B36B /* Train */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 47729E2A22F447CA00B9B36B /* Build configuration list for PBXNativeTarget "KotlinIOS" */;
+			buildConfigurationList = 47729E2A22F447CA00B9B36B /* Build configuration list for PBXNativeTarget "Train" */;
 			buildPhases = (
 				47729E7122F480EB00B9B36B /* ShellScript */,
 				47729DFE22F447C800B9B36B /* Sources */,
@@ -167,9 +173,9 @@
 			);
 			dependencies = (
 			);
-			name = KotlinIOS;
+			name = Train;
 			productName = KotlinIOS;
-			productReference = 47729E0222F447C800B9B36B /* KotlinIOS.app */;
+			productReference = 47729E0222F447C800B9B36B /* Train.app */;
 			productType = "com.apple.product-type.application";
 		};
 		47729E1522F447CA00B9B36B /* KotlinIOSTests */ = {
@@ -244,7 +250,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				47729E0122F447C800B9B36B /* KotlinIOS */,
+				47729E0122F447C800B9B36B /* Train */,
 				47729E1522F447CA00B9B36B /* KotlinIOSTests */,
 				47729E2022F447CA00B9B36B /* KotlinIOSUITests */,
 			);
@@ -258,6 +264,7 @@
 			files = (
 				47729E1022F447CA00B9B36B /* LaunchScreen.storyboard in Resources */,
 				7C531673286B036B00985950 /* TableViewCell.xib in Resources */,
+				7C99070B2875E98500049B49 /* StationSearchCell.xib in Resources */,
 				47729E0D22F447CA00B9B36B /* Assets.xcassets in Resources */,
 				47729E0B22F447C800B9B36B /* Main.storyboard in Resources */,
 			);
@@ -306,6 +313,7 @@
 			files = (
 				7C969BE6286E022700B2464C /* DesignTools.swift in Sources */,
 				47729E0822F447C800B9B36B /* ViewController.swift in Sources */,
+				7C99070D2875ED3900049B49 /* SearchViewController.swift in Sources */,
 				47729E0622F447C800B9B36B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,12 +339,12 @@
 /* Begin PBXTargetDependency section */
 		47729E1822F447CA00B9B36B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 47729E0122F447C800B9B36B /* KotlinIOS */;
+			target = 47729E0122F447C800B9B36B /* Train */;
 			targetProxy = 47729E1722F447CA00B9B36B /* PBXContainerItemProxy */;
 		};
 		47729E2322F447CA00B9B36B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 47729E0122F447C800B9B36B /* KotlinIOS */;
+			target = 47729E0122F447C800B9B36B /* Train */;
 			targetProxy = 47729E2222F447CA00B9B36B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -603,7 +611,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		47729E2A22F447CA00B9B36B /* Build configuration list for PBXNativeTarget "KotlinIOS" */ = {
+		47729E2A22F447CA00B9B36B /* Build configuration list for PBXNativeTarget "Train" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				47729E2B22F447CA00B9B36B /* Debug */,

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinMPP</string>
+    <string name="app_name">Train</string>
     <string name="title">Train</string>
     <string name="departureLabel">Origin</string>
     <string name="arrivalLabel">Destination</string>
@@ -10,4 +10,10 @@
     <string name="datePlaceholder">2022-07-24</string>
     <string name="selectTimeLabel">Departure Time</string>
     <string name="priceLabel">Price</string>
+    <string name="adultLabel">Adults</string>
+    <string name="childLabel">Children</string>
+    <string name="one">1</string>
+    <string name="zero">0</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>
