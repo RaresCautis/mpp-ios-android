@@ -7,5 +7,6 @@ interface StationSearchContract {
     }
     abstract class Presenter : CoroutineScope {
         abstract fun onViewTaken(view: View)
+        abstract fun filterData(initialData: List<StationDetails>, searchText: String): List<StationDetails>
     }
 }

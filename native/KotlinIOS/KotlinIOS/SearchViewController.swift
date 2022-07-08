@@ -63,16 +63,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate, UISe
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        filteredStations = searchText.isEmpty ? stations : stations.filter { (item: StationDetails) -> Bool in return checkStringContains(input:item.crs!, substring: searchText) || checkStringContains(input:item.name, substring: searchText)
-        }
-        
+        filteredStations = presenter.filterData(initialData: stations, searchText: searchText)
+    
         searchTableView.reloadData()
     }
-}
-
-func checkStringContains(input: String, substring: String) -> Bool {
-    return input.range(of: substring, options: .caseInsensitive, range: nil, locale: nil) != nil
 }
 
 protocol SearchDelegate : AnyObject {

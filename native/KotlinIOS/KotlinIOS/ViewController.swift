@@ -38,6 +38,8 @@ class ViewController: UIViewController, ApplicationContractView {
     private var tableData: [DepartureInformation] = [DepartureInformation]()
     private var stations: [StationDetails] = [StationDetails]()
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
+    private var originStationCRS: String = ""
+    private var destinationStationCRS: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,11 +51,9 @@ class ViewController: UIViewController, ApplicationContractView {
     }
     
     @IBAction func submitButtonTapped() {
-        let originStation = originStationButton.titleLabel!.text!
-        let finalStation = departureStationButton.titleLabel!.text!
         let dateTime = presenter.formatDateTimeInput(input: datePicker.date.description, format: "yyyy-MM-dd HH:mm:ss z")
-    
-        presenter.makeTrainSearch(originCrs: originStation, destinationCrs: finalStation, dateTime: dateTime, adultCount: adultCounter.text ?? "1", childCount: childCounter.text ?? "0")
+        
+        presenter.makeTrainSearch(originCrs: originStationCRS, destinationCrs: destinationStationCRS, dateTime: dateTime, adultCount: adultCounter.text!, childCount: childCounter.text!)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,8 +64,6 @@ class ViewController: UIViewController, ApplicationContractView {
             vc?.button = (sender as! UIButton)
         }
     }
-    
-    
 }
 
 extension ViewController {
@@ -115,7 +113,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ViewController{
     
-    func createAlert(alertMessage: String, alertTitle: String){
+    func createAlert(alertTitle: String, alertMessage: String){
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -166,5 +164,13 @@ extension ViewController{
 extension ViewController: SearchDelegate {
     func updateButtons(text: String, button: UIButton) {
         button.setTitle(text, for: .normal)
+        switch button {
+        case originStationButton:
+            originStationCRS = text
+        case departureStationButton:
+            destinationStationCRS = text
+        default:
+            break
+        }
     }
 }

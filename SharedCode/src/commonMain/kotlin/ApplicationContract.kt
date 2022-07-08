@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 interface ApplicationContract {
     interface View {
         fun setStationNames(stationNames: List<StationDetails>)
-        fun createAlert(alertMessage: String, alertTitle: String)
+        fun createAlert(alertTitle: String, alertMessage: String)
         fun setTableData(data: List<DepartureInformation>)
     }
 

@@ -15,7 +15,8 @@ data class JourneyDetails (
     val departureTime: String,
     val arrivalTime: String,
     val primaryTrainOperator: TrainOperatorDetails,
-    val tickets: List<TicketDetails>
+    val tickets: List<TicketDetails>,
+    val journeyDurationInMinutes: Int
     )
 
 @Serializable

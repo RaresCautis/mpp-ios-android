@@ -8,52 +8,26 @@ class TimeHelperTest {
 
     @Test
     fun getJourneyTime_isCorrect() {
-        val departure_time = "2022-07-24T14:34:00.000+01:00"
-        val arrival_time = "2022-07-24T15:35:00.000+01:00"
+        val time = 135
+        val journeyTime = TimeHelper.getJourneyTime(time)
 
-        val journey_time = TimeHelper.getJourneyTime(departure_time, arrival_time)
-
-        Assert.assertEquals("01:01", journey_time)
+        Assert.assertEquals("2:15", journeyTime)
     }
 
     @Test
-    fun getJourneyTime_longTimeJourneyIsCorrect() {
-        val departure_time = "2022-07-24T14:34:00.000+01:00"
-        val arrival_time = "2022-07-26T15:35:00.000+01:00"
+    fun getJourneyTime_paddingIsCorrect() {
+        val time = 121
+        val journeyTime = TimeHelper.getJourneyTime(time)
 
-        val journey_time = TimeHelper.getJourneyTime(departure_time, arrival_time)
-
-        Assert.assertEquals("49:01", journey_time)
+        Assert.assertEquals("2:01", journeyTime)
     }
 
     @Test
-    fun getJourneyTime_invalidInput() {
-        val departure_time = "2022-07-24T14:54:00.000+01:00"
-        val arrival_time = "2022-07-24T13:35:00.000+01:00"
+    fun getJourneyTime_smallNumber() {
+        val time = 45
+        val journeyTime = TimeHelper.getJourneyTime(time)
 
-        val journey_time = TimeHelper.getJourneyTime(departure_time, arrival_time)
-
-        Assert.assertEquals("INVALID JOURNEY TIME", journey_time)
-    }
-
-    @Test
-    fun getJourneyTime_noJourneyTime() {
-        val departure_time = "2022-07-24T14:54:00.000+01:00"
-        val arrival_time = "2022-07-24T14:54:00.000+01:00"
-
-        val journey_time = TimeHelper.getJourneyTime(departure_time, arrival_time)
-
-        Assert.assertEquals("00:00", journey_time)
-    }
-
-    @Test
-    fun getJourneyTime_differentTimeZones() {
-        val departure_time = "2022-07-24T14:54:00.000+01:00"
-        val arrival_time = "2022-07-25T12:54:00.000+00:00"
-
-        val journey_time = TimeHelper.getJourneyTime(departure_time, arrival_time)
-
-        Assert.assertEquals("23:00", journey_time)
+        Assert.assertEquals("0:45", journeyTime)
     }
 
     @Test

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         setUpSpinners()
     }
 
-    override fun createAlert(alertMessage: String, alertTitle: String) {
+    override fun createAlert(alertTitle: String, alertMessage: String) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle(alertTitle)
         builder.setMessage(alertMessage)
@@ -97,12 +97,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val label = findViewById<TextView>(buttonToLabel[buttonId]!!)
         val labelValue = "${label.text}".toInt()
 
-        val newLabelValue = bindInt(labelValue + buttonToModifier[buttonId]!!, minNumberTickets, maxNumberTickets)
+        val newLabelValue = boundInt(labelValue + buttonToModifier[buttonId]!!, minNumberTickets, maxNumberTickets)
 
         label.text = newLabelValue.toString()
     }
 
-    private fun bindInt(input: Int, minVal: Int, maxVal: Int) = max(min(input, maxVal), minVal)
+    private fun boundInt(input: Int, minVal: Int, maxVal: Int) = max(min(input, maxVal), minVal)
 
     private fun getSelectedDate(): String {
         val calendar = Calendar.getInstance()

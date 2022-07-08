@@ -14,4 +14,7 @@ class StationSearchPresenter : StationSearchContract.Presenter() {
     override fun onViewTaken(view: StationSearchContract.View) {
         this.view = view
     }
+
+    override fun filterData(initialData: List<StationDetails>, searchText: String) =
+        SearchBarHelper.filterData(initialData, searchText)
 }
